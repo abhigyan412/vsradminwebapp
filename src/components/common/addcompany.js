@@ -24,6 +24,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 const Addcompany = ({
+  
   addCompany,
   handleClose,
   companydetail,
@@ -138,8 +139,6 @@ const Addcompany = ({
   const [validcustomername, setValidCustomerName] = useState(true);
   const [validemail, setValidEmail] = useState(true);
   const [validusername, setValidUsername] = useState(true);
-  const [validfirstname, setValidFirstName] = useState(true);
-  const [validlastname, setValidLastName] = useState(true);
   const [validregno, setValidRegno] = useState(true);
   const [validaddress1, setValidAddress1] = useState(true);
   const [validaddress2, setValidAddress2] = useState(true);
@@ -158,17 +157,18 @@ const Addcompany = ({
   const [validtimeinmin, setValidTimeInMin] = useState(true);
   const [validqueuename, setValidQueuename] = useState(true);
   const [validwhatsappurl, setValidWhatsappURL] = useState(true);
-  const [validWInstructions, setValidWInstructions] = useState(true);
+  
   const [isValid, setIsValid] = useState(false);
   const [validtax, setValidTax] = useState(true);
   const [message, setMessage] = useState("");
 
   // Email validation
   const emailRegex =
-    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+
   const emailvalidation = (event) => {
     setEmail(event.target.value);
-    if (event.target.value != "") {
+    if (event.target.value !== "") {
       setValidEmail(true);
     }
     const email = event.target.value;
@@ -185,26 +185,26 @@ const Addcompany = ({
   const handlesavecompany = (event) => {
     event.preventDefault();
     if (
-      companyname != "" &&
-      customername != "" &&
-      email != "" &&
-      username != "" &&
-      address1 != "" &&
-      address2 != "" &&
-      address3 != "" &&
-      country != "" &&
-      zipcode != "" &&
-      contactno != "" &&
-      contactperson != "" &&
-      contactpersonno != "" &&
-      didno != "" &&
-      deliverytype != 0 &&
-      restauranttype != 0 &&
-      timeinhour != "" &&
-      timeinmin != "" &&
-      queuename != ""
+      companyname !== "" &&
+      customername !== "" &&
+      email !== "" &&
+      username !== "" &&
+      address1 !== "" &&
+      address2 !== "" &&
+      address3 !== "" &&
+      country !== "" &&
+      zipcode !== "" &&
+      contactno !== "" &&
+      contactperson !== "" &&
+      contactpersonno !== "" &&
+      didno !== "" &&
+      deliverytype !== 0 &&
+      restauranttype !== 0 &&
+      timeinhour !== "" &&
+      timeinmin !== "" &&
+      queuename !== ""
     ) {
-      if (isadmin == true ? tax != 0 : tax == 0) {
+      if (isadmin === true ? tax !== 0 : tax === 0) {
         let params = {
           type: companydetail.customerid === undefined ? 1 : 2,
           companyName: companyname,
@@ -328,68 +328,68 @@ const Addcompany = ({
   };
   // Tostify
   const formvalidate = () => {
-    {
-      if (companyname == "") {
+    
+      if (companyname === "") {
         setValidCompanyName(false);
       }
-      if (customername == "") {
+      if (customername === "") {
         setValidCustomerName(false);
       }
-      if (email == "") {
+      if (email === "") {
         setValidEmail(false);
       }
-      if (username == "") {
+      if (username === "") {
         setValidUsername(false);
       }
-      if (address1 == "") {
+      if (address1 === "") {
         setValidAddress1(false);
       }
-      if (address2 == "") {
+      if (address2 === "") {
         setValidAddress2(false);
       }
-      if (address3 == "") {
+      if (address3 === "") {
         setValidAddress3(false);
       }
-      if (country == "") {
+      if (country === "") {
         setValidCountry(false);
       }
-      if (zipcode == "") {
+      if (zipcode === "") {
         setValidZipCode(false);
       }
-      if (contactno == "") {
+      if (contactno === "") {
         setValidContactNo(false);
       }
-      if (contactperson == "") {
+      if (contactperson === "") {
         setValidContactPerson(false);
       }
-      if (contactpersonno == "") {
+      if (contactpersonno === "") {
         setValidContactPersonNo(false);
       }
-      if (didno == "") {
+      if (didno === "") {
         setValidDidNo(false);
       }
-      if (deliverytype == 0) {
+      if (deliverytype === 0) {
         setValidDeliveryType(false);
       }
-      if (restauranttype == 0) {
+      if (restauranttype === 0) {
         setValidRestaurantType(false);
       }
-      if (timeinhour == 0) {
+      if (timeinhour === 0) {
         setValidTimeInHour(false);
       }
-      if (timeinmin == 0) {
+      if (timeinmin === 0) {
         setValidTimeInMin(false);
       }
-      if (queuename == "") {
+      if (queuename === "") {
         setValidQueuename(false);
       }
-      if (tax == 0) {
+      if (tax === 0) {
         setValidTax(false);
       }
       // if (whatsappurl == "") {
       //   setValidWhatsappURL(false);
       // }
-    }
+    
     toast.warning("All fields are required!", { autoClose: 1000 });
   };
 
@@ -489,7 +489,7 @@ const Addcompany = ({
                   error={!validcompanyname}
                   onChange={(event) => {
                     setCompanyName(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidCompanyName(true);
                     }
                   }}
@@ -505,7 +505,7 @@ const Addcompany = ({
                   error={!validcustomername}
                   onChange={(event) => {
                     setCustomerName(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidCustomerName(true);
                     }
                   }}
@@ -519,7 +519,7 @@ const Addcompany = ({
                   // disabled={companydetail.customerid > 0}
                   autoComplete="off"
                   helperText={
-                    email == ""
+                    email === ""
                       ? "Please enter email"
                       : [
                           <div
@@ -546,7 +546,7 @@ const Addcompany = ({
                   error={!validusername}
                   onChange={(event) => {
                     setUsername(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidUsername(true);
                     }
                   }}
@@ -596,7 +596,7 @@ const Addcompany = ({
                   error={!validregno}
                   onChange={(event) => {
                     setRegNo(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidRegno(true);
                     }
                   }}
@@ -612,7 +612,7 @@ const Addcompany = ({
                   error={!validaddress1}
                   onChange={(event) => {
                     setAddress1(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidAddress1(true);
                     }
                   }}
@@ -627,7 +627,7 @@ const Addcompany = ({
                   error={!validaddress2}
                   onChange={(event) => {
                     setAddress2(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidAddress2(true);
                     }
                   }}
@@ -642,7 +642,7 @@ const Addcompany = ({
                   error={!validaddress3}
                   onChange={(event) => {
                     setAddress3(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidAddress3(true);
                     }
                   }}
@@ -660,7 +660,7 @@ const Addcompany = ({
                   error={!validzipcode}
                   onChange={(event) => {
                     setZipCode(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidZipCode(true);
                     }
                   }}
@@ -676,7 +676,7 @@ const Addcompany = ({
                   error={!validcountry}
                   onChange={(event) => {
                     setCountry(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidCountry(true);
                     }
                   }}
@@ -692,7 +692,7 @@ const Addcompany = ({
                   error={!validcontactno}
                   onChange={(event) => {
                     setContactNo(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidContactNo(true);
                     }
                   }}
@@ -708,7 +708,7 @@ const Addcompany = ({
                   error={!validcontactperson}
                   onChange={(event) => {
                     setContactPerson(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidContactPerson(true);
                     }
                   }}
@@ -726,7 +726,7 @@ const Addcompany = ({
                   error={!validcontactpersonno}
                   onChange={(event) => {
                     setContactPersonNo(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidContactPersonNo(true);
                     }
                   }}
@@ -748,7 +748,7 @@ const Addcompany = ({
                   // }}
                   onChange={(event) => {
                     setDidNo(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidDidNo(true);
                     }
                   }}
@@ -764,7 +764,7 @@ const Addcompany = ({
                   error={!validonlineurl}
                   onChange={(event) => {
                     setOnlineUrl(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidOnlineUrl(true);
                     }
                   }}
@@ -781,7 +781,7 @@ const Addcompany = ({
                   error={!validdeliverytype}
                   onChange={(event) => {
                     setDeliveryType(event.target.value);
-                    if (event.target.value != 0) {
+                    if (event.target.value !== 0) {
                       setValidDeliveryType(true);
                     }
                   }}
@@ -805,7 +805,7 @@ const Addcompany = ({
                   error={!validordercommission}
                   onChange={(event) => {
                     setOrderCommission(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidOrderCommission(true);
                     }
                   }}
@@ -822,7 +822,7 @@ const Addcompany = ({
                   error={!validrestauranttype}
                   onChange={(event) => {
                     setRestaurantType(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidRestaurantType(true);
                     }
                   }}
@@ -843,7 +843,7 @@ const Addcompany = ({
                   error={!validtimeinhour}
                   onChange={(event) => {
                     setTimeInHour(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidTimeInHour(true);
                     }
                   }}
@@ -886,7 +886,7 @@ const Addcompany = ({
                   error={!validtimeinmin}
                   onChange={(event) => {
                     setTimeInMin(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidTimeInMin(true);
                     }
                   }}
@@ -928,7 +928,7 @@ const Addcompany = ({
                   error={!validqueuename}
                   onChange={(event) => {
                     setQueuename(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidQueuename(true);
                     }
                   }}
@@ -944,7 +944,7 @@ const Addcompany = ({
                   error={!validwhatsappurl}
                   onChange={(event) => {
                     setWhatsappURl(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidWhatsappURL(true);
                     }
                   }}
@@ -1020,7 +1020,7 @@ const Addcompany = ({
                     label="Enable tax"
                   />
                 </FormGroup>
-                {isadmin == true
+                {isadmin === true
                   ? [
                       <TextField
                         sx={{
@@ -1035,7 +1035,7 @@ const Addcompany = ({
                         error={!validtax}
                         onChange={(event) => {
                           setTax(event.target.value);
-                          if (event.target.value != "") {
+                          if (event.target.value !== "") {
                             setValidTax(true);
                           }
                         }}

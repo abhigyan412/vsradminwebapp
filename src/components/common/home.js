@@ -1,6 +1,6 @@
 import React from "react";
 import "./common.css";
-import { useEffect, forwardRef, useState, useRef } from "react";
+import { useEffect, forwardRef, useState, useRef , useCallback } from "react";
 import Tab from "react-bootstrap/Tab";
 import ReactAudioPlayer from "react-audio-player";
 import Tabs from "react-bootstrap/Tabs";
@@ -22,7 +22,7 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import {
   Box,
-  FormControl,
+  
   Button,
   TextField,
   MenuItem,
@@ -68,7 +68,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import { useNavigate } from "react-router-dom";
 import { Search } from "../common/search/search";
@@ -150,6 +150,7 @@ const Home = ({
   const [validpos, setValidPOS] = useState(true);
   const [role, setRole] = useState("");
   const [roledesc, setRoleDesc] = useState("");
+  const [, setUploadAudio] = useState(null);
 
   const debounceFunc = debounce(
     1000,
@@ -169,7 +170,7 @@ const Home = ({
   const [audiocount, setAudiocount] = useState(0);
   const [openAudio, setopenAudio] = useState(false);
   const [selectedAudio, setSelectedAudio] = useState(null);
-  const [uploadAudio, setUploadAudio] = useState(null);
+ 
   const [welcomefile, setWelcomefile] = useState(false);
   const [openGptpopup, setOpenGptpopup] = useState(false);
   const [listWelcomefile, setListWelcomefile] = useState([]);
@@ -191,24 +192,12 @@ const Home = ({
   const [orderpageno, setOrderPageno] = useState(0);
   const [opensetupopup, setOpenSetupopup] = useState(false);
 
-  useEffect(() => {
-    handlelistcompany();
-    handlelistagent();
-    listUploadedaudio();
-    listErroraudio();
-    listOrderitems();
-    loadcompanyddl()
-      .then((response) => {
-        setCompanydll(response.data.resultset);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [searchData, pagenumber, audioPageno, pageno, orderpageno]);
+  
+  
+  
 
   /* START LISTING */
-  const handlelistcompany = () => {
-    // debugger;
+  const handlelistcompany = useCallback(() => {
     setOpenloading(true);
     let params = {
       search: searchData,
@@ -219,18 +208,15 @@ const Home = ({
         setCompanyinfo(response.data.resultset);
         setTotalrow(response.data.resultset.length);
         setTotalcount(Math.ceil(response.data.totalrow / 10));
-        setTimeout(() => {
-          setOpenloading(false);
-        }, 500);
+        setTimeout(() => setOpenloading(false), 500);
       })
       .catch((error) => {
         console.log("error: ", error);
-        setTimeout(() => {
-          setOpenloading(false);
-        }, 500);
+        setTimeout(() => setOpenloading(false), 500);
       });
-  };
-  const handlelistagent = () => {
+  }, [searchData, pagenumber, loadCompany]);
+  
+  const handlelistagent = useCallback(() => {
     setOpenloading(true);
     let param = {
       userid: state.loginreducer.logininfo.data.data[0].userid,
@@ -239,18 +225,15 @@ const Home = ({
       .then((response) => {
         setAgentinfo(response.data.resultset);
         setTotalagent(response.data.resultset.length);
-        setTimeout(() => {
-          setOpenloading(false);
-        }, 500);
+        setTimeout(() => setOpenloading(false), 500);
       })
       .catch((error) => {
         console.log("error: ", error);
-        setTimeout(() => {
-          setOpenloading(false);
-        }, 500);
+        setTimeout(() => setOpenloading(false), 500);
       });
-  };
-  const listUploadedaudio = () => {
+  }, [state.loginreducer.logininfo.data.data, loadAgent]);
+  
+  const listUploadedaudio = useCallback(() => {
     let params = {
       search: searchData,
       pageno: audioPageno,
@@ -264,8 +247,9 @@ const Home = ({
       .catch((error) => {
         console.log(error);
       });
-  };
-  const listErroraudio = () => {
+  }, [searchData, audioPageno, loadUploadedaudio]);
+  
+  const listErroraudio = useCallback(() => {
     let params = {
       search: searchData,
       pageno: pageno,
@@ -279,8 +263,9 @@ const Home = ({
       .catch((error) => {
         console.log(error);
       });
-  };
-  const listOrderitems = () => {
+  }, [searchData, pageno, loadErroraudio]);
+  
+  const listOrderitems = useCallback(() => {
     let params = {
       search: searchData,
       pageno: orderpageno,
@@ -294,9 +279,37 @@ const Home = ({
       .catch((error) => {
         console.log(error);
       });
-  };
-
+  }, [searchData, orderpageno, loadorderlist]);
+  
   /* END LISTING */
+
+  useEffect(() => {
+    handlelistcompany();
+    handlelistagent();
+    listUploadedaudio();
+    listErroraudio();
+    listOrderitems();
+  
+    loadcompanyddl()
+      .then((response) => {
+        setCompanydll(response.data.resultset);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [
+    handlelistcompany,
+    handlelistagent,
+    listUploadedaudio,
+    listErroraudio,
+    listOrderitems,
+    loadcompanyddl,
+    searchData,
+    pagenumber,
+    audioPageno,
+    pageno,
+    orderpageno,
+  ]);
 
   // ADD AND EDIT COMPANY
   const addnewclick = (params) => {
@@ -507,10 +520,8 @@ const Home = ({
   const handleAudio = (event) => {
     setSelectedAudio(event.target.files[0]);
   };
-
-  const handleUploadAudio = (event) => {
-    setUploadAudio(event.target.files[0]);
-  };
+  
+ 
 
   // UPLOAD AUDIOFILE
   // const saveUploadaudio = (event) => {
@@ -553,7 +564,7 @@ const Home = ({
   // UPLOAD AUDIOFILE
   const saveUploadaudio = (event) => {
     event.preventDefault();
-    if (itemname != "") {
+    if (itemname !== "") {
       let param = {
         itemname: itemname.toLowerCase(),
         userid: state.loginreducer.logininfo.data.data[0].userid,
@@ -712,8 +723,8 @@ const Home = ({
 
   // SUBMIT ERROR AUDIOTEXT
   const onSubmitAudiotext = (row, i) => {
-    if (correctedtext != "") {
-      if (i == selectedindex) {
+    if (correctedtext !== "") {
+      if (i === selectedindex) {
         let param = {
           id: row.transid,
           correctedtext: correctedtext,
@@ -958,30 +969,7 @@ const Home = ({
   };
 
   // Tostify
-  const formvalidate = () => {
-    {
-      if (merchantid === "") {
-        setValidMerchantid(false);
-      }
-      if (clientid === "") {
-        setValidClientid(false);
-      }
-      if (secretkey === "") {
-        setValidSecretkey(false);
-      }
-      if (secretcode === "") {
-        setValidSecretcode(false);
-      }
-      if (authtoken === "") {
-        setValidAuthtoken(false);
-      }
-      if (pos === "") {
-        setValidPOS(false);
-      }
-    }
-    toast.warning("All fields are required!", { autoClose: 2000 });
-  };
-
+  
   return (
     <div className="dashboard-page">
       <div className="dashboard-header">
@@ -1816,7 +1804,7 @@ const Home = ({
                           <ReactAudioPlayer src={row.audiopath} controls />
                         </TableCell>
                         <TableCell align="center" className="headerstyle">
-                          {selectedindex == i ? (
+                          {selectedindex === i ? (
                             <input
                               style={{ fontWeight: "lighter" }}
                               type="text"

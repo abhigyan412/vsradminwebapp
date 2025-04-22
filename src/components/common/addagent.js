@@ -81,37 +81,24 @@ const Addagent = ({
   const [validreportmanager, setValidReportManager] = useState(true);
   const [validqueuename, setValidQueuename] = useState(true);
 
-  // useEffect(() => { .
-  //   loadagentddL().then((response) => {
-  //     setAgentdata(response.data.resultset);
-  //   });
-  //   loadlanguageddl().then((response) => {
-  //     setLanguagedata(response.data.resultset);
-  //   });
-  //   setItemSizeSelected(
-  //     agentdetail?.languagelist
-  //       ? JSON.parse(agentdetail?.languagelist).map((i) => {
-  //           return { languageid: i.languageid, languagename: i.languagename };
-  //         })
-  //       : []
-  //   );
-  // }, [agentdetail]);
-useEffect(() => {
-  loadagentddL().then((response) => {
-    setAgentdata(response.data.resultset);
-  });
-  loadlanguageddl().then((response) => {
-    setLanguagedata(response.data.resultset);
-  });
-  setItemSizeSelected(
-    agentdetail?.languagelist
-      ? JSON.parse(agentdetail?.languagelist).map((i) => {
-          return { languageid: i.languageid, languagename: i.languagename };
-        })
-      : []
-  );
-}, [agentdetail, loadagentddL, loadlanguageddl]);
-
+  useEffect(() => {
+    loadagentDDL().then((response) => {
+      setAgentdata(response.resultset);
+    });
+    loadlanguageDDL().then((response) => {
+      setLanguagedata(response.resultset);
+    });
+  
+    setItemSizeSelected(
+      agentdetail?.languagelist
+        ? JSON.parse(agentdetail?.languagelist).map((i) => {
+            return { languageid: i.languageid, languagename: i.languagename };
+          })
+        : []
+    );
+  }, [agentdetail]); 
+  
+  
 
   const selectedValues = (selectedList, selectedItem) => {
     const list = selectedList.map((i) => {
@@ -126,17 +113,17 @@ useEffect(() => {
       return { languageid: i.languageid };
     });
     if (
-      agentname != "" &&
-      agentcity != "" &&
-      username != "" &&
-      userpwd != "" &&
-      usermobile != "" &&
-      extension != "" &&
-      extensionpwd != "" &&
-      queuename != ""
+      agentname !=="" &&
+      agentcity !== "" &&
+      username !== "" &&
+      userpwd !== "" &&
+      usermobile !=="" &&
+      extension !== "" &&
+      extensionpwd !== "" &&
+      queuename !== ""
     ) {
-      if (languagesize != 0) {
-        if (isadmin == false ? reportmanager != "" : reportmanager == "") {
+      if (languagesize !== 0) {
+        if (isadmin === false ? reportmanager !== "" : reportmanager === "") {
           let params = {
             type: agentdetail.agentid === undefined ? 1 : 2,
             agentid:
@@ -206,35 +193,35 @@ useEffect(() => {
   };
   // Tostify
   const formvalidate = () => {
-    {
-      if (agentname == "") {
+    
+      if (agentname === "") {
         setValidAgentName(false);
       }
-      if (agentcity == "") {
+      if (agentcity === "") {
         setValidAgentCity(false);
       }
-      if (username == "") {
+      if (username ==="") {
         setValidUsername(false);
       }
-      if (userpwd == "") {
+      if (userpwd === "") {
         setValidUserPwd(false);
       }
-      if (usermobile == "") {
+      if (usermobile === "") {
         setValidUserMobile(false);
       }
-      if (extension == "") {
+      if (extension === "") {
         setValidExtension(false);
       }
-      if (extensionpwd == "") {
+      if (extensionpwd === "") {
         setValidExtensionPwd(false);
       }
-      if (reportmanager == "") {
+      if (reportmanager ==="") {
         setValidReportManager(false);
       }
-      if (queuename == "") {
+      if (queuename === "") {
         setValidQueuename(false);
       }
-    }
+    
     toast.warning("All fields are required!", { autoClose: 1000 });
   };
   return (
@@ -341,7 +328,7 @@ useEffect(() => {
                   error={!validagentname}
                   onChange={(event) => {
                     setAgentName(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidAgentName(true);
                     }
                   }}
@@ -357,7 +344,7 @@ useEffect(() => {
                   error={!validagentcity}
                   onChange={(event) => {
                     setAgentCity(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidAgentCity(true);
                     }
                   }}
@@ -375,7 +362,7 @@ useEffect(() => {
                   error={!validusername}
                   onChange={(event) => {
                     setUsername(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidUsername(true);
                     }
                   }}
@@ -392,7 +379,7 @@ useEffect(() => {
                   error={!validuserpwd}
                   onChange={(event) => {
                     setUserPwd(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidUserPwd(true);
                     }
                   }}
@@ -412,7 +399,7 @@ useEffect(() => {
                   error={!validusermobile}
                   onChange={(event) => {
                     setUserMobile(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidUserMobile(true);
                     }
                   }}
@@ -429,7 +416,7 @@ useEffect(() => {
                   error={!validextension}
                   onChange={(event) => {
                     setExtension(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidExtension(true);
                     }
                   }}
@@ -449,7 +436,7 @@ useEffect(() => {
                   error={!validextensionpwd}
                   onChange={(event) => {
                     setExtensionPwd(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidExtensionPwd(true);
                     }
                   }}
@@ -491,7 +478,7 @@ useEffect(() => {
                     label="Admin"
                   />
                 </FormGroup>
-                {isadmin == false
+                {isadmin === false
                   ? [
                       <TextField
                         sx={{
@@ -505,7 +492,7 @@ useEffect(() => {
                         error={!validreportmanager}
                         onChange={(event) => {
                           setReportManager(event.target.value);
-                          if (event.target.value != "") {
+                          if (event.target.value !== "") {
                             setValidReportManager(true);
                           }
                         }}
@@ -531,7 +518,7 @@ useEffect(() => {
                   error={!validqueuename}
                   onChange={(event) => {
                     setQueuename(event.target.value);
-                    if (event.target.value != "") {
+                    if (event.target.value !== "") {
                       setValidQueuename(true);
                     }
                   }}

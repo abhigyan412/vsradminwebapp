@@ -1,6 +1,6 @@
 import React from "react";
 import "./common.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useCallback } from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Tooltip from "@mui/material/Tooltip";
@@ -11,17 +11,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
+
 import {
   Box,
-  FormControl,
   Button,
   TextField,
   MenuItem,
-  Slide,
+
   Stack,
   Dialog,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { ToastContainer, toast } from "react-toastify";
 import {
@@ -53,10 +53,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContentText from "@mui/material/DialogContentText";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
-import { Search } from "../common/search/search";
-import { SearchIconWrapper } from "../common/search/searchiconwrapper";
-import { StyledInputBase } from "../common/search/styledinputbase";
-import { debounce } from "throttle-debounce";
+
+
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
@@ -82,7 +80,7 @@ const Restaurantsetup = ({
   loadagent,
   agentdetails,
 }) => {
-  const [searchData, setSearchData] = useState("");
+ 
   const [restaurantinfo, setRestaurantinfo] = useState([]);
   const [musicholdinfo, setMusicholdinfo] = useState([]);
   const [queuesinfo, setQueuesinfo] = useState([]);
@@ -119,93 +117,85 @@ const Restaurantsetup = ({
   const [rejectqueue, setRejectQueue] = useState(false);
   const [rejectmqueue, setRejectMQueue] = useState(false);
 
-  const debounceFunc = debounce(
-    1000,
-    (value) => {
-      setSearchData(value);
-    },
-    { atBegin: false }
-  );
+ 
+  
+  
+ // Assuming loadrestaurantInput and others are imported or stable functions
+const handlelistInput = useCallback(() => {
+  let params = { search: "", pageno: 1 };
+  loadrestaurantInput(params)
+    .then((response) => {
+      setRestaurantinfo(response.data.resultset);
+      setRestrow(response.data.resultset.length);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+    });
+}, [loadrestaurantInput]);  // ✅ added dependency
 
+const handlelistmusichold = useCallback(() => {
+  let params = { search: "", pageno: 1 };
+  loadmusiconhold(params)
+    .then((response) => {
+      setMusicholdinfo(response.data.resultset);
+      setMusicrow(response.data.resultset.length);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+    });
+}, [loadmusiconhold]);
+
+const handlelistqueues = useCallback(() => {
+  let params = { search: "", pageno: 1 };
+  loadqueues(params)
+    .then((response) => {
+      setQueuesinfo(response.data.resultset);
+      setQueuerow(response.data.resultset.length);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+    });
+}, [loadqueues]);
+
+const handlelistqueuemember = useCallback(() => {
+  let params = { search: "", pageno: 1 };
+  loadqueuemember(params)
+    .then((response) => {
+      setQueuemember(response.data.resultset);
+      setQueueMerow(response.data.resultset.length);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+    });
+}, [loadqueuemember]);
+
+const handlelistagent = useCallback(() => {
+  let params = { search: "", pageno: 1 };
+  loadagent(params)
+    .then((response) => {
+      setAgentInfo(response.data.resultset);
+      setAgentrow(response.data.resultset.length);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+    });
+}, [loadagent]);
+
+  
   useEffect(() => {
     handlelistInput();
     handlelistmusichold();
     handlelistqueues();
     handlelistqueuemember();
     handlelistagent();
-  }, [searchData]);
-
-  const handlelistInput = () => {
-    let params = {
-      search: "",
-      pageno: 1,
-    };
-    loadrestaurantInput(params)
-      .then((response) => {
-        setRestaurantinfo(response.data.resultset);
-        setRestrow(response.data.resultset.length);
-      })
-      .catch((error) => {
-        console.log("error: ", error);
-      });
-  };
-  const handlelistmusichold = () => {
-    let params = {
-      search: "",
-      pageno: 1,
-    };
-    loadmusiconhold(params)
-      .then((response) => {
-        setMusicholdinfo(response.data.resultset);
-        setMusicrow(response.data.resultset.length);
-      })
-      .catch((error) => {
-        console.log("error: ", error);
-      });
-  };
-  const handlelistqueues = () => {
-    let params = {
-      search: "",
-      pageno: 1,
-    };
-    loadqueues(params)
-      .then((response) => {
-        setQueuesinfo(response.data.resultset);
-        setQueuerow(response.data.resultset.length);
-      })
-      .catch((error) => {
-        console.log("error: ", error);
-      });
-  };
-  const handlelistqueuemember = () => {
-    let params = {
-      search: "",
-      pageno: 1,
-    };
-    loadqueuemember(params)
-      .then((response) => {
-        setQueuemember(response.data.resultset);
-        setQueueMerow(response.data.resultset.length);
-      })
-      .catch((error) => {
-        console.log("error: ", error);
-      });
-  };
-  const handlelistagent = () => {
-    let params = {
-      search: "",
-      pageno: 1,
-    };
-    loadagent(params)
-      .then((response) => {
-        setAgentInfo(response.data.resultset);
-        setAgentrow(response.data.resultset.length);
-      })
-      .catch((error) => {
-        console.log("error: ", error);
-      });
-  };
-
+  }, [
+    handlelistInput,
+    handlelistmusichold,
+    handlelistqueues,
+    handlelistqueuemember,
+    handlelistagent,
+  ]);
+  
   // ADD AND EDIT RESTAURANT INPUT
   const addnewInput = (params) => {
     setOpeninputpopup(true);

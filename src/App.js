@@ -7,7 +7,7 @@ import Changepwd from "./components/login/changepassword";
 function App() {
   return (
     <div className="App">
-      <Router basename={"/vsradmin"}>
+      <Router >
         <Routes>
           <Route exact path="/" element={<Login />} />
           <Route exact path="/home" element={<Home />} />
